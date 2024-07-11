@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<title>Consulta Tu Cedula DO</title>
+    
+</head>
+<body class="bod">
+<center>
+<div class="row mar">
+    <div style="background-color: #ffffff; width: 1280px;" class="col s12">
+        <div class="row">
+            <h1>Consulta Tu Cedula Dominicana</h1>
+<center>
+<div class="row" >
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+            <form class="form-control fooo" align='center' id="form" action="index.html" method="GET" enctype="multipart/form-data" >
+                <label>Coloca el numero de tu Cedula:</label>
+                <input type="text" id="idcard" name="cardnumber" placeholder="Tu cedula aqui.">
+                <button class="btn waves-effect waves-light" type="submit">Consultar
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</center>
+<table id="myTable" class="responsive-table centered">
+        <thead>
+          <tr>
+              <th>Cedula</th>
+              <th>Nombres</th>
+              <th>Apellido1</th>
+              <th>Apellido2</th>
+              <th>FechaNacimiento</th>
+              <th>LugarNacimiento</th>
+              <th>IdSexo</th>
+              <th>IdEstadoCivil</th>
+              <th>IDEstatus</th>
+              <th>EstatusCedulaAzul</th>
+              <th>CedulaAnterior</th>
+              <th>Ok</th>
+              <th>Foto</th>
+          </tr>
+        </thead>
+        <tbody>         
+        </tbody>
+    </table>            
+        </div>
+    </div>
+</div>
+</center>
+<script type="text/javascript">
+const tabla = document.querySelector('#myTable tbody');	
+const form = document.querySelector('#form')
+form.addEventListener('submit', (event) => {
+event.preventDefault()
+const dataform = new FormData(event.currentTarget)
+function load(dataform){
+	fetch('https://api.adamix.net/apec/cedula/' +  dataform.get('cardnumber'))
+		.then(response => response.json())
+		.then(data => {
+			const row = document.createElement('tr');
+            row.innerHTML += `
+            <td>
+                ${data['Cedula']} 
+            </td>
+            <td>
+                ${data['Nombres']} 
+            </td>
+            <td>
+                ${data['Apellido1']} 
+            </td>
+            <td>
+                ${data['Apellido2']}     
+            </td>
+            <td>
+                ${data['FechaNacimiento']}
+            </td>
+            <td>
+                ${data['LugarNacimiento']}     
+            </td>
+            <td>
+                ${data['IdSexo']}     
+            </td>
+            <td>
+                ${data['IdEstadoCivil']}     
+            </td>
+            <td>
+                ${data['IDEstatus']}     
+            </td>
+            <td>
+                ${data['EstatusCedulaAzul']}     
+            </td>
+            <td>
+                ${data['CedulaAnterior']}     
+            </td>
+            <td>
+                ${data['ok']}     
+            </td>
+            <td>
+                <img width="92" height="119" src="${data['foto']}">     
+            </td>
+        	`;
+        	
+        	tabla.appendChild(row);
+        });
+}
+load(dataform)   
+})    
+
+</script>
+
+</body>
+</html>
